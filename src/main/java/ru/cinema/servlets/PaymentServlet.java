@@ -15,12 +15,14 @@ public class PaymentServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         req.getRequestDispatcher("payment.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         HttpSession session = req.getSession();
         Ticket ticket = GSON.fromJson(req.getReader(), Ticket.class);
         session.setAttribute("row", ticket.getRow());

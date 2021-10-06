@@ -44,7 +44,6 @@ public class PsqlAccountStore implements Store<Account> {
         return accounts;
     }
 
-
     @Override
     public Account findById(int id) {
         try (Connection cn = pool.getConnection();
@@ -64,8 +63,9 @@ public class PsqlAccountStore implements Store<Account> {
     @Override
     public Account save(Account account) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO account(username, email, phone) " +
-                     "VALUES ((?),(?),(?))",PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO account(username, email, phone) "
+                             + "VALUES ((?),(?),(?))", PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getEmail());
             ps.setString(3, account.getPhone());
@@ -93,7 +93,8 @@ public class PsqlAccountStore implements Store<Account> {
     }
 
     private Account createAccountFromResult(ResultSet it) throws SQLException {
-        return new Account(it.getInt("id"), it.getString("username"), it.getString("email"), it.getString("phone"));
+        return new Account(it.getInt("id"), it.getString("username"),
+                it.getString("email"), it.getString("phone"));
     }
 }
 

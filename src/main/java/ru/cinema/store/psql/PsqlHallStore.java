@@ -62,8 +62,9 @@ public class PsqlHallStore implements Store<Hall> {
     @Override
     public Hall save(Hall hall) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO hall(total_rows, total_cells) " +
-                     "VALUES ((?),(?))", PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO hall(total_rows, total_cells) " + "VALUES ((?),(?))",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, hall.getRow());
             ps.setInt(1, hall.getCell());
             ps.execute();

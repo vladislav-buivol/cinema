@@ -13,7 +13,8 @@ import java.util.List;
 
 public class IndexServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         List<Session> cinemaSessions = PsqlSessionStore.instOf().findAll();
         if (cinemaSessions.size() == 1) {
             HttpSession session = req.getSession();

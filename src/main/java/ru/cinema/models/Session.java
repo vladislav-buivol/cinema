@@ -1,8 +1,8 @@
 package ru.cinema.models;
 
 public class Session {
-    int id;
-    int movieId;
+    private int id;
+    private int movieId;
 
     public Session(int id, int movieId) {
         this.id = id;

@@ -20,6 +20,8 @@ function pay(r, c, id) {
             alert("Билет куплен");
             goBack();
         }).fail(function (err) {
+            alert("Это место уже занято ");
+            goBack();
             console.log(err);
         });
     }

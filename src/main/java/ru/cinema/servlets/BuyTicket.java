@@ -19,18 +19,19 @@ public class BuyTicket extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         if (isValidSession(req.getSession())) {
             Ticket ticket = GSON.fromJson(req.getReader(), Ticket.class);
             ticket.setSessionId(1);
             ticket.setAccountId(1);
-            Ticket t = PsqlTicketStore.instOf().save(ticket);
-            if (t != null) {
+            try {
+                PsqlTicketStore.instOf().save(ticket);
                 resp.setStatus(200);
-            } else {
-                resp.setStatus(500);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                resp.setStatus(409);
             }
-
         }
     }
 

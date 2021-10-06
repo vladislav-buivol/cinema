@@ -1,12 +1,12 @@
 package ru.cinema.models;
 
 public class Ticket {
-    int id;
-    int sessionId;
-    Integer accountId;
-    int row;
-    int cell;
-    int hallId;
+    private int id;
+    private int sessionId;
+    private Integer accountId;
+    private int row;
+    private int cell;
+    private int hallId;
 
     public Ticket(int row, int cell, int hallId) {
         this.row = row;

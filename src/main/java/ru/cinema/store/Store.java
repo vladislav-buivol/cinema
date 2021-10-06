@@ -1,5 +1,6 @@
 package ru.cinema.store;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface Store<T> {
@@ -7,7 +8,7 @@ public interface Store<T> {
 
     T findById(int id);
 
-    T save(T t);
+    T save(T t) throws SQLException;
 
     T delete(int id);
 }

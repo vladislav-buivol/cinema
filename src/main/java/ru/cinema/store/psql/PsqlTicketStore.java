@@ -29,7 +29,6 @@ public class PsqlTicketStore implements Store<Ticket> {
         return PsqlTicketStore.Lazy.INST;
     }
 
-
     @Override
     public List<Ticket> findAll() {
         List<Ticket> tickets = new ArrayList<>();
@@ -64,10 +63,12 @@ public class PsqlTicketStore implements Store<Ticket> {
     }
 
     @Override
-    public Ticket save(Ticket ticket) {
+    public Ticket save(Ticket ticket) throws SQLException {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO ticket(session_id, row, cell, account_id, hall_id) " +
-                     "VALUES ((?),(?),(?),(?),(?))", PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO ticket(session_id, row, cell, account_id, hall_id) "
+                             + "VALUES ((?),(?),(?),(?),(?))",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, ticket.getSessionId());
             ps.setInt(2, ticket.getRow());
             ps.setInt(3, ticket.getCell());
@@ -81,12 +82,11 @@ public class PsqlTicketStore implements Store<Ticket> {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            throw e;
         }
         LOGGER.info("Ticket purchased");
         return ticket;
     }
-
 
     @Override
     public Ticket delete(int id) {
@@ -104,11 +104,11 @@ public class PsqlTicketStore implements Store<Ticket> {
         return null;
     }
 
-
     public List<Ticket> findByHallId(int hallId) {
         List<Ticket> tickets = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM ticket WHERE hall_id =(?)")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM ticket WHERE hall_id =(?)")) {
             ps.setInt(1, hallId);
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -123,7 +123,8 @@ public class PsqlTicketStore implements Store<Ticket> {
     }
 
     private Ticket createTicketFromResult(ResultSet it) throws SQLException {
-        return new Ticket(it.getInt("id"), it.getInt("session_id"), it.getInt("session_id"),
+        return new Ticket(it.getInt("id"), it.getInt("session_id"),
+                it.getInt("session_id"),
                 it.getInt("row"), it.getInt("cell"),
                 it.getInt("hall_id"));
     }

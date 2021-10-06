@@ -24,7 +24,8 @@ public class HallServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         resp.setContentType("application/json; charset=utf-8");
         String hallJson;
         List<Hall> allHalls = PsqlHallStore.instOf().findAll();
@@ -52,7 +53,8 @@ public class HallServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
     }
 }

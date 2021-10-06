@@ -12,7 +12,7 @@ public class PsqlConnectionManager {
     }
 
     private static final class Lazy {
-        private static PsqlConnectionManager INST = new PsqlConnectionManager();
+        private final static PsqlConnectionManager INST = new PsqlConnectionManager();
     }
 
     public static PsqlConnectionManager instOf() {
